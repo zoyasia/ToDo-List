@@ -24,6 +24,7 @@
 <script lang="ts">
 import Task from './Task.vue';
 
+// création d'une interface pour pouvoir typer mon tableau tasks dans props
 interface TaskType {
     id: number;
     title: string;
@@ -34,6 +35,10 @@ interface TaskType {
 }
 
 export default {
+
+    // remonter le emit qui vient de Task au cran du dessus (Home)
+    emits: ["delete"], 
+
     components: {
         Task,
     },
@@ -43,11 +48,16 @@ export default {
         },
     },
     methods: {
+
         removeTask(id: number) {
             const index = this.tasks.findIndex(item => item.id === id);
             //console.log(index);
             if (index !== -1) {
                 this.tasks.splice(index, 1);
+                // transmet le emit au niveau plus haut (Home)
+                this.$emit('delete', id); 
+                //console.log(id);
+                
             }
         },
 
@@ -66,4 +76,4 @@ export default {
     },
 };
 </script>
-  
+

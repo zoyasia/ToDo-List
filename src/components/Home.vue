@@ -37,36 +37,7 @@
         <br>
 
         <div class="table-responsive" data-bs-theme="dark">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th class="col"></th>
-                        <th class="col">Tâche</th>
-                        <th class="col">Description</th>
-                        <th class="col">Statut</th>
-                        <th class="col">Échéance</th>
-                        <th class="col">Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr v-for="item in filteredTasks" :key="item.id">
-                        <th><input v-model="item.selected" type="checkbox"
-                                @change="updateTaskStatus(item.id, item.selected)">
-                        </th>
-                        <Task :task-title="item.title" :task-description="item.description" :task-id="item.id"
-                            :task-status="item.status" :task-completed="item.selected" :task-deadline="item.deadline"
-                            @delete="removeTask(item.id)">
-                        </Task>
-                    </tr>
-                </tbody>
-
-            </table>
-
-        </div>
-
-        <div class="table-responsive" data-bs-theme="dark">
-                <List :tasks="filteredTasks"></List>
+                <List :tasks="filteredTasks" @delete="removeTask"></List>
         </div>
 
     </div>
@@ -195,7 +166,7 @@ export default {
             const filteredByStatus = this.filteredListByStatus;
             const filteredByName = this.filteredListByName;
 
-            // associer les deux filtres pour que la recherche s'effectue dans le tableau filtré auparavant par statut
+            // associer les deux filtres pour que la recherche s'effectue dans le tableau déjà filtré par statut
             return filteredByStatus.filter(item => filteredByName.includes(item));
         },
 
