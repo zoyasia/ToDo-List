@@ -1,4 +1,5 @@
-<template>
+<template id="table">
+    
 
 
                 <th>{{ taskTitle }}</th>

@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar bg-dark navbar-expand-lg fixed-top" data-bs-theme="dark">
+    <nav id="nav" class="navbar bg-dark navbar-expand-lg fixed-top" data-bs-theme="dark">
         <div class="container-fluid">
             <router-link to="/" class="navbar-brand">ToDo App</router-link>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"

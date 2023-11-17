@@ -1,5 +1,5 @@
 <template>
-    <div class="container text-align-center">
+    <div id="home" class="container text-align-center">
         <h1>Bienvenue</h1>
 
         <br>
@@ -40,6 +40,16 @@
                 <List :tasks="filteredTasks" @delete="removeTask"></List>
         </div>
 
+        <div>
+            <ul>
+                <li v-for="task in taskStore.tasks">
+                    <span>{{ task.title }}</span>
+                    <span> </span>
+                    <span></span>
+                </li>
+            </ul>
+        </div>
+
     </div>
 </template>
 
@@ -49,8 +59,14 @@ import SearchBar from './SearchBar.vue';
 import Task from './Task.vue';
 import List from './List.vue';
 
+import { useTaskStore } from '../store/store';
 
 export default {
+
+    setup() {
+    const taskStore = useTaskStore()
+    return { taskStore}
+  },
 
     components: {
         SearchBar,
@@ -169,7 +185,6 @@ export default {
             // associer les deux filtres pour que la recherche s'effectue dans le tableau déjà filtré par statut
             return filteredByStatus.filter(item => filteredByName.includes(item));
         },
-
     }
 }
 

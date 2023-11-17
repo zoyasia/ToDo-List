@@ -1,5 +1,5 @@
 <template>
-  <div class="row g-2 align-items-center">
+  <div class="row g-2 align-items-center" id="searchBar">
     <div class="col-auto">
       <input type="text" class="form-control" v-model="query" placeholder="upload fichiers, courses,... ">
     </div>

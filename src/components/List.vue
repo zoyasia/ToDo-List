@@ -1,5 +1,5 @@
 <template>
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="list">
         <thead>
             <tr>
                 <th class="col"></th>
