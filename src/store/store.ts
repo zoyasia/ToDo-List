@@ -29,6 +29,14 @@ export const useTaskStore = defineStore('taskStore', {
                 selected: true,
             }
         ]
-    })
+    }),
+
+    getters:{
+        statusFilter(state) {
+            return this.tasks.filter((task) => task.status)
+        }
+    }
+
+
 
 })

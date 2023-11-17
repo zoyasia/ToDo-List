@@ -37,8 +37,10 @@
         <br>
 
         <div class="table-responsive" data-bs-theme="dark">
-            <List :tasks="filteredTasks" @delete="removeTask"></List>
+                <List :tasks="filteredTasks" @delete="removeTask"></List>
         </div>
+
+        
 
     </div>
 </template>
@@ -54,9 +56,9 @@ import { useTaskStore } from '../store/store';
 export default {
 
     setup() {
-        const taskStore = useTaskStore()
-        return { taskStore }
-    },
+    const taskStore = useTaskStore()
+    return { taskStore}
+  },
 
     components: {
         SearchBar,
@@ -116,15 +118,15 @@ export default {
 
         generateNewId: function () {
 
-            if (this.taskStore.tasks.length === 0) {
+            if(this.taskStore.tasks.length === 0) {
                 const newId = 1;
                 return newId;
             } else {
                 const lastId = this.taskStore.tasks[this.taskStore.tasks.length - 1].id;
-                //console.log(lastId);
-                const newId = lastId + 1;
-                //console.log(newId);
-                return newId;
+            //console.log(lastId);
+            const newId = lastId + 1;
+            //console.log(newId);
+            return newId;
             }
         }
 

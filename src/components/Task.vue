@@ -18,6 +18,7 @@ export default {
     emits: ["delete"],
 
     props: {
+
         taskId: {
             type: Number,
         },
