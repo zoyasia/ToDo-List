@@ -76,33 +76,6 @@ export default {
 
     data() {
         return {
-
-            listItems: [
-                {
-                    id: 1,
-                    title: 'RDV dentiste',
-                    description: 'Rendez-vous chez le dentiste pour un contrôle.',
-                    deadline: '2023-12-31',
-                    status: 'à faire',
-                    selected: false,
-                },
-                {
-                    id: 2,
-                    title: 'Plantes',
-                    description: 'Arroser avant de partir',
-                    deadline: '2023-11-25',
-                    status: 'à faire',
-                    selected: false,
-                },
-                {
-                    id: 3,
-                    title: 'Anniv Léna',
-                    description: 'Trouver un cadeau',
-                    deadline: '2023-05-14',
-                    status: 'terminée',
-                    selected: true,
-                },
-            ],
             searchText: '',
             newTask: '',
             selectedStatus: 'all',
@@ -114,7 +87,7 @@ export default {
         addTask: function () {
             if (this.newTask.trim() !== '') {
                 const newId = this.generateNewId();
-                this.listItems.push({
+                this.taskStore.tasks.push({
                     id: newId,
                     title: this.newTask,
                     description: '',
@@ -123,17 +96,17 @@ export default {
                     selected: false,
                 });
                 this.newTask = '';
-                //console.log(this.listItems);
+                //console.log(this.taskStore.tasks);
 
             }
         },
 
         removeTask: function (id: number) {
-            const index = this.listItems.findIndex(item => item.id === id);
+            const index = this.taskStore.tasks.findIndex(item => item.id === id);
             // console.log(index);
 
             if (index !== -1) {
-                this.listItems.splice(index, 1);
+                this.taskStore.tasks.splice(index, 1);
             }
         },
 
@@ -142,7 +115,7 @@ export default {
         },
 
         updateTaskStatus: function (taskId: number, isChecked: boolean) {
-            const task = this.listItems.find(item => item.id === taskId);
+            const task = this.taskStore.tasks.find(item => item.id === taskId);
             if (task) {
                 task.selected = isChecked;
                 //console.log(isChecked);
@@ -152,7 +125,7 @@ export default {
         },
 
         generateNewId: function () {
-            const lastId = this.listItems[this.listItems.length - 1].id;
+            const lastId = this.taskStore.tasks[this.taskStore.tasks.length - 1].id;
             //console.log(lastId);
             const newId = lastId + 1;
             //console.log(newId);
@@ -164,17 +137,17 @@ export default {
     computed: {
         filteredListByStatus: function () {
             if (this.selectedStatus === 'all') {
-                return this.listItems;
+                return this.taskStore.tasks;
             } else {
-                return this.listItems.filter(item => item.status === this.selectedStatus);
+                return this.taskStore.tasks.filter(item => item.status === this.selectedStatus);
             }
         },
 
         filteredListByName: function () {
             if (this.searchText.trim() === '') {
-                return this.listItems;
+                return this.taskStore.tasks;
             } else {
-                return this.listItems.filter(item => item.title.toLowerCase().includes(this.searchText.toLowerCase()))
+                return this.taskStore.tasks.filter(item => item.title.toLowerCase().includes(this.searchText.toLowerCase()))
             }
         },
 
