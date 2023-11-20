@@ -21,6 +21,7 @@ export default {
   methods: {
     applyFilter() {
       this.$emit('apply-filter', this.query);
+      this.query = '';
     },
   },
 

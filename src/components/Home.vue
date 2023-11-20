@@ -28,9 +28,9 @@
 
         <div>
             <div class="btn-group">
-                <button class="btn btn-light" @click="selectedStatus = 'all'">Tous</button>
-                <button class="btn btn-light" @click="selectedStatus = 'à faire'">À faire</button>
-                <button class="btn btn-light" @click="selectedStatus = 'terminée'">Terminée</button>
+                <button class="btn btn-light" @click="setSelectedStatus('all')">Tous</button>
+                <button class="btn btn-light" @click="setSelectedStatus('à faire')">À faire</button>
+                <button class="btn btn-light" @click="setSelectedStatus('terminée')">Terminée</button>
             </div>
         </div>
 
@@ -48,7 +48,6 @@
 <script lang="ts">
 
 import SearchBar from './SearchBar.vue';
-import Task from './Task.vue';
 import List from './List.vue';
 
 import { useTaskStore } from '../store/store';
@@ -62,16 +61,12 @@ export default {
 
     components: {
         SearchBar,
-        Task,
         List,
     },
 
     data() {
         return {
-            searchText: '',
             newTask: '',
-            selectedStatus: 'all',
-
         }
     },
 
@@ -103,7 +98,7 @@ export default {
         },
 
         applyFilterByName: function (query: string) {
-            this.searchText = query;
+            this.taskStore.searchText = query;
         },
 
         updateTaskStatus: function (taskId: number, isChecked: boolean) {
@@ -128,35 +123,72 @@ export default {
             //console.log(newId);
             return newId;
             }
-        }
+        },
+
+        setSelectedStatus:function (status: string) {
+      this.taskStore.setStatus(status);
+    },
 
     },
 
     computed: {
-        filteredListByStatus: function () {
-            if (this.selectedStatus === 'all') {
-                return this.taskStore.tasks;
-            } else {
-                return this.taskStore.tasks.filter(item => item.status === this.selectedStatus);
-            }
-        },
+        filteredTasks: function (){
+            console.log(this.taskStore.filtered);           
+            return this.taskStore.filtered;            
+        }
+        // filteredListByStatus: function () {
+        //     if (this.selectedStatus === 'all') {
+        //         return this.taskStore.tasks;
+        //     } else {
+        //         return this.taskStore.tasks.filter(item => item.status === this.selectedStatus);
+        //     }
+        // },
 
-        filteredListByName: function () {
-            if (this.searchText.trim() === '') {
-                return this.taskStore.tasks;
-            } else {
-                return this.taskStore.tasks.filter(item => item.title.toLowerCase().includes(this.searchText.toLowerCase()))
-            }
-        },
+        // filteredListByName: function () {
+        //     if (this.searchText.trim() === '') {
+        //         return this.taskStore.tasks;
+        //     } else {
+        //         return this.taskStore.tasks.filter(item => item.title.toLowerCase().includes(this.searchText.toLowerCase()))
+        //     }
+        // },
 
-        filteredTasks: function () {
-            const filteredByStatus = this.filteredListByStatus;
-            const filteredByName = this.filteredListByName;
+        // filteredTasks: function () {
+        //     const filteredByStatus = this.taskStore.filterListByStatus;
+        //     const filteredByName = this.taskStore.filterListByName;
+        //     console.log(this.selectedStatus);
+        //     console.log(JSON.stringify(filteredByStatus));
+        //     console.log('filter by name' + filteredByName);
 
-            // associer les deux filtres pour que la recherche s'effectue dans le tableau déjà filtré par statut
-            return filteredByStatus.filter(item => filteredByName.includes(item));
-        },
+        //     // associer les deux filtres pour que la recherche s'effectue dans le tableau déjà filtré par statut
+        //     return filteredByStatus.filter(item => filteredByName.includes(item));
+        
+        // },
+
+
+//   filteredTasks: function () {
+//     const filteredByStatus = this.taskStore.filterListByStatus;
+//     const filteredByName = this.taskStore.filterListByName;
+
+//     console.log('Selected Status:', this.selectedStatus);
+//     console.log('Filtered By Status:', JSON.stringify(filteredByStatus));
+//     console.log('Filtered By Name:', JSON.stringify(filteredByName));
+
+//     return filteredByStatus.filter(item => {
+//       const nameMatch = filteredByName.includes(item);
+
+//       const statusMatch = item.status === this.selectedStatus;
+
+//       return nameMatch && statusMatch;
+//     });
+//   },
+},
+
+
+
+
+
+
     }
-}
+
 
 </script>

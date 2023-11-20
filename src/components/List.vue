@@ -11,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(task, index) in tasks" :key="index">
+            <tr v-for="task in tasks">
                 <th><input v-model="task.selected" type="checkbox"  @change="updateTaskStatus(task.id, task.selected)"></th>
                 <Task :task-title="task.title" :task-description="task.description" :task-id="task.id"
                     :task-status="task.status" :task-completed="task.selected" :task-deadline="task.deadline"
@@ -23,6 +23,7 @@
   
 <script lang="ts">
 import Task from './Task.vue';
+import { useTaskStore } from '../store/store';
 
 // création d'une interface pour pouvoir typer mon tableau tasks dans props
 interface TaskType {
@@ -35,6 +36,11 @@ interface TaskType {
 }
 
 export default {
+
+    setup() {
+    const taskStore = useTaskStore()
+    return { taskStore}
+  },
 
     // remonter le emit qui vient de Task au cran du dessus (Home)
     emits: ["delete"], 
