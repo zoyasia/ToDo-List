@@ -37,10 +37,10 @@
         <br>
 
         <div class="table-responsive" data-bs-theme="dark">
-                <List :tasks="filteredTasks" @delete="removeTask"></List>
+            <List :tasks="filteredTasks" @delete="removeTask"></List>
         </div>
 
-        
+
 
     </div>
 </template>
@@ -55,9 +55,9 @@ import { useTaskStore } from '../store/store';
 export default {
 
     setup() {
-    const taskStore = useTaskStore()
-    return { taskStore}
-  },
+        const taskStore = useTaskStore()
+        return { taskStore }
+    },
 
     components: {
         SearchBar,
@@ -113,82 +113,31 @@ export default {
 
         generateNewId: function () {
 
-            if(this.taskStore.tasks.length === 0) {
+            if (this.taskStore.tasks.length === 0) {
                 const newId = 1;
                 return newId;
             } else {
                 const lastId = this.taskStore.tasks[this.taskStore.tasks.length - 1].id;
-            //console.log(lastId);
-            const newId = lastId + 1;
-            //console.log(newId);
-            return newId;
+                //console.log(lastId);
+                const newId = lastId + 1;
+                //console.log(newId);
+                return newId;
             }
         },
 
-        setSelectedStatus:function (status: string) {
-      this.taskStore.setStatus(status);
-    },
+        setSelectedStatus: function (status: string) {
+            this.taskStore.setStatus(status);
+        },
 
     },
 
     computed: {
-        filteredTasks: function (){
-            console.log(this.taskStore.filtered);           
-            return this.taskStore.filtered;            
+        filteredTasks: function () {
+            console.log(this.taskStore.filtered);
+            return this.taskStore.filtered;
         }
-        // filteredListByStatus: function () {
-        //     if (this.selectedStatus === 'all') {
-        //         return this.taskStore.tasks;
-        //     } else {
-        //         return this.taskStore.tasks.filter(item => item.status === this.selectedStatus);
-        //     }
-        // },
-
-        // filteredListByName: function () {
-        //     if (this.searchText.trim() === '') {
-        //         return this.taskStore.tasks;
-        //     } else {
-        //         return this.taskStore.tasks.filter(item => item.title.toLowerCase().includes(this.searchText.toLowerCase()))
-        //     }
-        // },
-
-        // filteredTasks: function () {
-        //     const filteredByStatus = this.taskStore.filterListByStatus;
-        //     const filteredByName = this.taskStore.filterListByName;
-        //     console.log(this.selectedStatus);
-        //     console.log(JSON.stringify(filteredByStatus));
-        //     console.log('filter by name' + filteredByName);
-
-        //     // associer les deux filtres pour que la recherche s'effectue dans le tableau déjà filtré par statut
-        //     return filteredByStatus.filter(item => filteredByName.includes(item));
-        
-        // },
-
-
-//   filteredTasks: function () {
-//     const filteredByStatus = this.taskStore.filterListByStatus;
-//     const filteredByName = this.taskStore.filterListByName;
-
-//     console.log('Selected Status:', this.selectedStatus);
-//     console.log('Filtered By Status:', JSON.stringify(filteredByStatus));
-//     console.log('Filtered By Name:', JSON.stringify(filteredByName));
-
-//     return filteredByStatus.filter(item => {
-//       const nameMatch = filteredByName.includes(item);
-
-//       const statusMatch = item.status === this.selectedStatus;
-
-//       return nameMatch && statusMatch;
-//     });
-//   },
-},
-
-
-
-
-
-
-    }
+    },
+}
 
 
 </script>

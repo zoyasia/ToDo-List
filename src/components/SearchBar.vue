@@ -18,10 +18,16 @@ export default {
     }
   },
 
+  // intégrer un watcher qui lance le filtre dès que query change
+  watch: {
+    query: function() {
+      this.applyFilter();
+    },
+  },
+
   methods: {
     applyFilter() {
       this.$emit('apply-filter', this.query);
-      this.query = '';
     },
   },
 

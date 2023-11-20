@@ -39,33 +39,16 @@ export const useTaskStore = defineStore('taskStore', {
       this.selectedStatus = status;
     },
   },
-  
+
 
   getters: {
-    // filterListByStatus(state) {
-    //   if (state.selectedStatus === 'all') {
-    //     return state.tasks;
-    //   } else {
-    //     return state.tasks.filter((item) => item.status === state.selectedStatus);
-    //   }
-    // },
-
-    // filterListByName(state) {
-    //   if (state.searchText.trim() === '') {
-    //     return state.tasks;
-    //   } else {
-    //     return state.tasks.filter((item) =>
-    //       item.title.toLowerCase().includes(state.searchText.toLowerCase())
-    //     );
-    //   }
-    // },
 
     filtered(state) {
       // je duplique le tableau
       let tasksToFilter = state.tasks;
       this.selectedStatus = state.selectedStatus;
       console.log(state.selectedStatus);
-      
+
 
       // si la barre de recherche n'est pas vide
       if (state.searchText.trim() !== '') {
@@ -74,12 +57,12 @@ export const useTaskStore = defineStore('taskStore', {
         );
       };
       console.log(tasksToFilter);
-      
+
 
       // si j'ai un statut !all, je filtre et retourne
       if (state.selectedStatus !== 'all') {
         tasksToFilter = tasksToFilter.filter(item => item.status === state.selectedStatus
-          );
+        );
       }
       console.log(tasksToFilter.filter(item => item.status === state.selectedStatus));
 
