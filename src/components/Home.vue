@@ -1,8 +1,6 @@
 <template>
-    <div id="home" class="container text-align-center">
+    <div id="home" class="container-fluid text-align-center">
         <h1>Bienvenue</h1>
-
-        <br>
 
         <div>
             <h2>Rechercher une tâche</h2>
@@ -137,6 +135,13 @@ export default {
             return this.taskStore.filtered;
         }
     },
+
+    watch: {
+        status: 'setSelectedStatus'
+    },
+
+
+
 }
 
 

@@ -18,7 +18,7 @@ export default {
     }
   },
 
-  // intégrer un watcher qui lance le filtre dès que query change
+  // intégrer un watcher qui lance le filtre dès que la query change
   watch: {
     query: function() {
       this.applyFilter();
