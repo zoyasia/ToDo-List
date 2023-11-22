@@ -51,6 +51,10 @@ import List from './List.vue';
 import { useTaskStore } from '../store/store';
 
 export default {
+    created() {
+    // Appel de l'action pour récupérer les tâches depuis l'API
+    useTaskStore().fetchAllTasks();
+  },
 
     setup() {
         const taskStore = useTaskStore()

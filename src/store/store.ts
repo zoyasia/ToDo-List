@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import axios from 'axios';
 
 // convention de nommage = useNomDuStore
 export const useTaskStore = defineStore('taskStore', {
@@ -38,6 +39,20 @@ export const useTaskStore = defineStore('taskStore', {
     setStatus(status: string) {
       this.selectedStatus = status;
     },
+
+    fetchAllTasks(){
+      axios.get("http://localhost:8000/tasks")
+      .then(response => {
+    // en cas de réussite de la requête
+    console.log(response.data);
+      })
+      .catch(error => {
+    // en cas d’échec de la requête
+        console.error('Erreur lors de la requête API', error);
+      });
+    }
+
+
   },
 
 
