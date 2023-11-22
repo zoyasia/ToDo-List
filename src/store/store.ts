@@ -4,6 +4,7 @@ import axios from 'axios';
 // convention de nommage = useNomDuStore
 export const useTaskStore = defineStore('taskStore', {
   state: () => ({
+    
     tasks: [
       {
         id: 1,
@@ -40,11 +41,12 @@ export const useTaskStore = defineStore('taskStore', {
       this.selectedStatus = status;
     },
 
-    fetchAllTasks(){
+    fetchTasks(){
       axios.get("http://localhost:8000/tasks")
       .then(response => {
     // en cas de réussite de la requête
-    console.log(response.data);
+    let tasksAPI = response.data;
+    console.log(tasksAPI);
       })
       .catch(error => {
     // en cas d’échec de la requête
@@ -52,11 +54,27 @@ export const useTaskStore = defineStore('taskStore', {
       });
     }
 
+    // tentative de changer cette fonction pour meilleure gestion erreurs, mais msg erreur: Uncaught (in promise) TypeError: tasksToFilter.filter is not a function.
+    //[Vue warn]: Unhandled error during execution of scheduler flush. This is likely a Vue internals bug.
+    // async fetchTasks(){
+    //   try {
+    //   const response = await axios.get('http://localhost:8000/tasks');
+    //   this.tasks = response.data;
+    //   } catch (error) {
+    //   console.error('Erreur lors de la récupération des tâches depuis l\'API', error);
+    //   }
+    //   },
+
 
   },
 
 
   getters: {
+
+    // récupérer le tableau de tasks du fetchTasks
+    getTasks(state){
+      return state.tasks
+    },
 
     filtered(state) {
       // je duplique le tableau

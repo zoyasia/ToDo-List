@@ -53,7 +53,7 @@ import { useTaskStore } from '../store/store';
 export default {
     created() {
     // Appel de l'action pour récupérer les tâches depuis l'API
-    useTaskStore().fetchAllTasks();
+    useTaskStore().fetchTasks();
   },
 
     setup() {
