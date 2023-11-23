@@ -47,6 +47,7 @@
 
 import SearchBar from './SearchBar.vue';
 import List from './List.vue';
+
 import axios from 'axios';
 
 import { useTaskStore } from '../store/store';
@@ -106,23 +107,40 @@ export default {
                     })
                     .then(function (response) {
                         console.log(response);
+                        useTaskStore().fetchTasks();                                                
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
-
             }
         },
 
 
+        // removeTask: function (id: number) {
+        //     const index = this.taskStore.tasks.findIndex(item => item.id === id);
+        //     // console.log(index);
+
+        //     if (index !== -1) {
+        //         this.taskStore.tasks.splice(index, 1);
+        //     }
+        // },
 
         removeTask: function (id: number) {
             const index = this.taskStore.tasks.findIndex(item => item.id === id);
-            // console.log(index);
+            console.log(index);
+            console.log(id);
+            
 
-            if (index !== -1) {
-                this.taskStore.tasks.splice(index, 1);
-            }
+            // if (index !== -1) {
+                axios.delete('http://localhost:8000/delete/' + id)
+                .then(function (response) {
+                        console.log('id supprimé:' + id);
+                        useTaskStore().fetchTasks();                                                
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            // }
         },
 
         applyFilterByName: function (query: string) {
@@ -167,7 +185,7 @@ export default {
     },
 
     watch: {
-        status: 'setSelectedStatus'
+        status: 'setSelectedStatus',
     },
 
 
