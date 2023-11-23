@@ -47,14 +47,15 @@
 
 import SearchBar from './SearchBar.vue';
 import List from './List.vue';
+import axios from 'axios';
 
 import { useTaskStore } from '../store/store';
 
 export default {
     created() {
-    // Appel de l'action pour récupérer les tâches depuis l'API
-    useTaskStore().fetchTasks();
-  },
+        // Appel de l'action pour récupérer les tâches depuis l'API
+        useTaskStore().fetchTasks();
+    },
 
     setup() {
         const taskStore = useTaskStore()
@@ -73,22 +74,47 @@ export default {
     },
 
     methods: {
+        // méthode sans API
+        // addTask: function () {
+        //     if (this.newTask.trim() !== '') {
+        //         const newId = this.generateNewId();
+        //         this.taskStore.tasks.push({
+        //             id: newId,
+        //             title: this.newTask,
+        //             description: '',
+        //             deadline: '',
+        //             status: 'à faire',
+        //             selected: false,
+        //         });
+        //         this.newTask = '';
+        //         //console.log(this.taskStore.tasks);
+
+        //     }
+        // },
+
         addTask: function () {
             if (this.newTask.trim() !== '') {
                 const newId = this.generateNewId();
-                this.taskStore.tasks.push({
-                    id: newId,
-                    title: this.newTask,
-                    description: '',
-                    deadline: '',
-                    status: 'à faire',
-                    selected: false,
-                });
-                this.newTask = '';
-                //console.log(this.taskStore.tasks);
+                axios.post('http://localhost:8000/new',
+                    {
+                        id: newId,
+                        title: this.newTask,
+                        description: '',
+                        deadline: '',
+                        status: 'à faire',
+                        isCompleted: false,
+                    })
+                    .then(function (response) {
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
 
             }
         },
+
+
 
         removeTask: function (id: number) {
             const index = this.taskStore.tasks.findIndex(item => item.id === id);

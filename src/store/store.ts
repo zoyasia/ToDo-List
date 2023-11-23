@@ -51,29 +51,32 @@ export const useTaskStore = defineStore('taskStore', {
       this.selectedStatus = status;
     },
 
-    fetchTasks(){
-      axios.get<Task[]>("http://localhost:8000/tasks")
-      .then(response => {
-    // en cas de réussite de la requête
-    this.tasks = response.data;
-    console.log(this.tasks);
-      })
-      .catch(error => {
-    // en cas d’échec de la requête
-        console.error('Erreur lors de la requête API', error);
-      });
-    }
+    // fetchTasks(){
+    //   axios.get<Task[]>("http://localhost:8000/tasks")
+    //   .then(response => {
+    // // en cas de réussite de la requête
+    // this.tasks = response.data;
+    // console.log(this.tasks);
+    //   })
+    //   .catch(error => {
+    // // en cas d’échec de la requête
+    //     console.error('Erreur lors de la requête API', error);
+    //   });
+    // },
 
-    // tentative de changer cette fonction pour meilleure gestion erreurs, mais msg erreur: Uncaught (in promise) TypeError: tasksToFilter.filter is not a function.
-    //[Vue warn]: Unhandled error during execution of scheduler flush. This is likely a Vue internals bug.
-    // async fetchTasks(){
-    //   try {
-    //   const response = await axios.get('http://localhost:8000/tasks');
-    //   this.tasks = response.data;
-    //   } catch (error) {
-    //   console.error('Erreur lors de la récupération des tâches depuis l\'API', error);
-    //   }
-    //   },
+    // version avec async/await:
+      async fetchTasks() {
+        try {
+          const response = await axios.get<Task[]>("http://localhost:8000/tasks");
+          this.tasks = response.data;
+          console.log(this.tasks);
+          return true;
+        } catch (error) {
+          console.error('Erreur lors de la requête API', error);
+          return false;
+        }
+      },
+
 
 
   },
@@ -81,10 +84,9 @@ export const useTaskStore = defineStore('taskStore', {
 
   getters: {
 
-    // récupérer le tableau de tasks du fetchTasks
-    getTasks(state): Task[]{
-      return state.tasks
-    },
+    // getTasks(state): Task[]{
+    //   return state.tasks
+    // },
 
     filtered(state) : Task[]{
       // je duplique le tableau
