@@ -14,13 +14,13 @@ export default {
 
   data() {
     return {
-          query: ''
+      query: ''
     }
   },
 
   // intégrer un watcher qui lance le filtre dès que la query change
   watch: {
-    query: function() {
+    query: function () {
       this.applyFilter();
     },
   },

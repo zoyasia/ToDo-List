@@ -12,7 +12,6 @@
         </thead>
         <tbody>
             <tr v-for="task in tasks">
-                <th><input v-model="task.selected" type="checkbox"  @change="updateTaskStatus(task.id, task.selected)"></th>
                 <Task :task="task" @delete="removeTask(task.id)"></Task>
             </tr>
         </tbody>
@@ -26,12 +25,12 @@ import { useTaskStore, type ITask } from '../store/store';
 export default {
 
     setup() {
-    const taskStore = useTaskStore()
-    return { taskStore}
-  },
+        const taskStore = useTaskStore()
+        return { taskStore }
+    },
 
     // remonter le emit qui vient de Task au cran du dessus (Home)
-    emits: ["delete"], 
+    emits: ["delete"],
 
     components: {
         Task,
@@ -49,24 +48,11 @@ export default {
             if (index !== -1) {
                 this.tasks.splice(index, 1);
                 // transmet le emit au niveau plus haut (Home)
-                this.$emit('delete', id); 
+                this.$emit('delete', id);
                 //console.log(id);
-                
+
             }
         },
-
-        updateTaskStatus: function (taskId: number, isChecked: boolean) {
-            const task = this.tasks.find(item => item.id === taskId);
-            if (task) {
-                task.selected = isChecked;
-                //console.log(isChecked);
-
-                task.status = isChecked ? 'terminée' : 'à faire';
-            }
-        },
-
-
-
     },
 };
 </script>

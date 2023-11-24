@@ -29,7 +29,7 @@ export const useTaskStore = defineStore('taskStore', {
       try {
         const response = await axios.get<ITask[]>("http://localhost:8000/tasks");
         this.tasks = response.data;
-        console.log(this.tasks);
+
         return true;
       } catch (error) {
         console.error('Erreur lors de la requête API', error);
@@ -50,7 +50,6 @@ export const useTaskStore = defineStore('taskStore', {
       // je duplique le tableau
       let tasksToFilter = state.tasks;
       this.selectedStatus = state.selectedStatus;
-      console.log(state.selectedStatus);
 
       // si la barre de recherche n'est pas vide
       if (state.searchText.trim() !== '') {
@@ -58,14 +57,12 @@ export const useTaskStore = defineStore('taskStore', {
           item.title.toLowerCase().includes(state.searchText.toLowerCase())
         );
       };
-      console.log(tasksToFilter);
 
       // si j'ai un statut !all, je filtre et retourne
       if (state.selectedStatus !== 'all') {
         tasksToFilter = tasksToFilter.filter(item => item.status === state.selectedStatus
         );
       }
-      console.log(tasksToFilter.filter(item => item.status === state.selectedStatus));
 
       //je retourne le tableau
       return tasksToFilter;

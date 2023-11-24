@@ -44,8 +44,6 @@
             <List :tasks="filteredTasks" @delete="removeTask"></List>
         </div>
 
-
-
     </div>
 </template>
 
