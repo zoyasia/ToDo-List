@@ -13,9 +13,12 @@ export interface ITask {
 export const useTaskStore = defineStore('taskStore', {
   state: () => ({
 
+    APIUrl: "http://localhost:8000",
     tasks: [] as ITask[],
     searchText: '',
     newTask: '',
+    newDescription: '',
+    newDeadline: '',
     selectedStatus: 'all',
   }),
 
@@ -27,7 +30,7 @@ export const useTaskStore = defineStore('taskStore', {
 
     async fetchTasks() {
       try {
-        const response = await axios.get<ITask[]>("http://localhost:8000/tasks");
+        const response = await axios.get<ITask[]>(this.APIUrl + '/tasks');
         this.tasks = response.data;
 
         return true;
@@ -37,6 +40,31 @@ export const useTaskStore = defineStore('taskStore', {
       }
     },
 
+    async addTask(newTask: string, newDescription: string, newDeadline: string) {
+      if (newTask.trim() !== '') {
+        try {
+          await axios.post(this.APIUrl + '/new', {
+            title: newTask,
+            description: newDescription,
+            deadline: newDeadline,
+          });
+          this.fetchTasks();
+          return true;
+        } catch (error) {
+          console.error('Erreur lors de l\'ajout de la tâche', error);
+          return false;
+        }
+      }
+    },
+
+    async removeTask (id:number) {
+      try{
+        await axios.delete(this.APIUrl + '/delete/' + id)
+        this.fetchTasks();
+      } catch (error) {
+        console.error(`Erreur lors de la suppression de la tâche avec l'ID ${id}`, error);
+      }
+    }
   },
 
 

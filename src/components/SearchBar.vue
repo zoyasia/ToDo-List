@@ -10,6 +10,7 @@
 </template>
   
 <script lang="ts">
+
 export default {
 
   data() {
@@ -20,7 +21,7 @@ export default {
 
   // intégrer un watcher qui lance le filtre dès que la query change
   watch: {
-    query: function () {
+    updateQuery: function () {
       this.applyFilter();
     },
   },

@@ -83,41 +83,16 @@ export default {
     methods: {
 
         async addTask() {
-            if (this.newTask.trim() !== '') {
-                try {
-                    await axios.post('http://localhost:8000/new', {
-                        title: this.newTask,
-                        description: this.newDescription,
-                        deadline: this.newDeadline,
-                    });
-                    this.newTask = "";
-                    this.newDescription = "";
-                    this.newDeadline = "";
-                    useTaskStore().fetchTasks();
-                } catch (error) {
-                    console.error('Erreur lors de l\'ajout de la tâche', error);
-                    return false;
-                }
-            }
-
+            await this.taskStore.addTask(this.newTask, this.newDescription, this.newDeadline);
+            this.newTask = '';
+            this.newDescription = '';
+            this.newDeadline = '';
         },
 
         removeTask: function (id: number) {
-            const index = this.taskStore.tasks.findIndex(item => item.id === id);
-            console.log(index);
-            console.log(id);
-
-            // if (index !== -1) {
-            axios.delete('http://localhost:8000/delete/' + id)
-                .then(function (response) {
-                    console.log('id supprimé:' + id);
-                    useTaskStore().fetchTasks();
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            // }
+            this.taskStore.removeTask(id);
         },
+
 
         applyFilterByName: function (query: string) {
             this.taskStore.searchText = query;
@@ -131,7 +106,6 @@ export default {
                 task.status = isChecked ? 'terminée' : 'à faire';
             }
         },
-
 
         setSelectedStatus: function (status: string) {
             this.taskStore.setStatus(status);
