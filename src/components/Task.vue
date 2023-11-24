@@ -1,60 +1,30 @@
 <template id="table">
-    
-
-
-                <th>{{ taskTitle }}</th>
-                <td>{{ taskDescription }}</td>
-                <td>{{ taskStatus }}</td>
-                <td>{{ taskDeadline }}</td>
-                <td><button class="btn btn-danger" @click="deleteItem">Supprimer</button></td>
-
-
+    <th>{{ task.title }}</th>
+    <td>{{ task.description }}</td>
+    <td>{{ task.status }}</td>
+    <td>{{ task.deadline }}</td>
+    <td><button class="btn btn-danger" @click="deleteItem">Supprimer</button></td>
 </template>
     
 <script lang="ts">
+
+import type { ITask } from '@/store/store';
 
 export default {
 
     emits: ["delete"],
 
     props: {
-
-        taskId: {
-            type: Number,
+        task: {
+            type: Object as () => ITask,
+            required: true
         },
-        taskTitle: {
-            type: String,
-            // required: true,
-        },
-        taskDescription: {
-            type: String,
-            default: '',
-        },
-        taskStatus: {
-            type: String,
-        },
-        taskDeadline: {
-            type: String,
-        },
-        taskCompleted: {
-            type: Boolean,
-        },
-    },
-
-    data() {
-        return {
-
-
-        }
     },
 
     methods: {
-        deleteItem (){
+        deleteItem() {
             this.$emit('delete');
-//            console.log('hello');
-            
         }
-
     },
 
 };

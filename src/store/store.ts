@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios';
 
-export interface Task {
+export interface ITask {
   id: number,
   title: string,
   description: string,
@@ -10,64 +10,47 @@ export interface Task {
   selected: boolean,
 }
 
-// convention de nommage = useNomDuStore
 export const useTaskStore = defineStore('taskStore', {
   state: () => ({
-    
-    tasks: [] as Task[],
+
+    tasks: [] as ITask[],
     searchText: '',
     newTask: '',
     selectedStatus: 'all',
   }),
 
   actions: {
+
     setStatus(status: string) {
       this.selectedStatus = status;
     },
 
-    // fetchTasks(){
-    //   axios.get<Task[]>("http://localhost:8000/tasks")
-    //   .then(response => {
-    // // en cas de réussite de la requête
-    // this.tasks = response.data;
-    // console.log(this.tasks);
-    //   })
-    //   .catch(error => {
-    // // en cas d’échec de la requête
-    //     console.error('Erreur lors de la requête API', error);
-    //   });
-    // },
-
-    // version avec async/await:
-      async fetchTasks() {
-        try {
-          const response = await axios.get<Task[]>("http://localhost:8000/tasks");
-          this.tasks = response.data;
-          console.log(this.tasks);
-          return true;
-        } catch (error) {
-          console.error('Erreur lors de la requête API', error);
-          return false;
-        }
-      },
-
-
+    async fetchTasks() {
+      try {
+        const response = await axios.get<ITask[]>("http://localhost:8000/tasks");
+        this.tasks = response.data;
+        console.log(this.tasks);
+        return true;
+      } catch (error) {
+        console.error('Erreur lors de la requête API', error);
+        return false;
+      }
+    },
 
   },
 
 
   getters: {
 
-    getTasks(state): Task[]{
+    getTasks(state): ITask[] {
       return state.tasks
     },
 
-    filtered(state) : Task[]{
+    filtered(state): ITask[] {
       // je duplique le tableau
       let tasksToFilter = state.tasks;
       this.selectedStatus = state.selectedStatus;
       console.log(state.selectedStatus);
-
 
       // si la barre de recherche n'est pas vide
       if (state.searchText.trim() !== '') {
@@ -76,7 +59,6 @@ export const useTaskStore = defineStore('taskStore', {
         );
       };
       console.log(tasksToFilter);
-
 
       // si j'ai un statut !all, je filtre et retourne
       if (state.selectedStatus !== 'all') {

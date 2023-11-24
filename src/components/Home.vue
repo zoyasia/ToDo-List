@@ -16,6 +16,12 @@
                 <input type="text" class="form-control" v-model="newTask" placeholder="encore une super tâche">
             </div>
             <div class="col-auto">
+                <input type="text" class="form-control" v-model="newDescription" placeholder="description">
+            </div>
+            <div class="col-auto">
+                <input type="date" class="form-control" v-model="newDeadline">
+            </div>
+            <div class="col-auto">
                 <button class="btn btn-light" @click="addTask">Ajouter</button>
             </div>
         </div>
@@ -71,75 +77,47 @@ export default {
     data() {
         return {
             newTask: '',
+            newDescription: '',
+            newDeadline: '',
         }
     },
 
     methods: {
-        // méthode sans API
-        // addTask: function () {
-        //     if (this.newTask.trim() !== '') {
-        //         const newId = this.generateNewId();
-        //         this.taskStore.tasks.push({
-        //             id: newId,
-        //             title: this.newTask,
-        //             description: '',
-        //             deadline: '',
-        //             status: 'à faire',
-        //             selected: false,
-        //         });
-        //         this.newTask = '';
-        //         //console.log(this.taskStore.tasks);
 
-        //     }
-        // },
-
-        addTask: function () {
+        async addTask() {
             if (this.newTask.trim() !== '') {
-                const newId = this.generateNewId();
-                axios.post('http://localhost:8000/new',
-                    {
-                        id: newId,
+                try {
+                    await axios.post('http://localhost:8000/new', {
                         title: this.newTask,
-                        description: '',
-                        deadline: '',
-                        status: 'à faire',
-                        isCompleted: false,
-                    })
-                    .then(function (response) {
-                        console.log(response);
-                        useTaskStore().fetchTasks();                                                
-                    })
-                    .catch(function (error) {
-                        console.log(error);
+                        description: this.newDescription,
+                        deadline: this.newDeadline,
                     });
+                    this.newTask = "";
+                    this.newDescription = "";
+                    this.newDeadline = "";
+                    useTaskStore().fetchTasks();
+                } catch (error) {
+                    console.error('Erreur lors de l\'ajout de la tâche', error);
+                    return false;
+                }
             }
+
         },
-
-
-        // removeTask: function (id: number) {
-        //     const index = this.taskStore.tasks.findIndex(item => item.id === id);
-        //     // console.log(index);
-
-        //     if (index !== -1) {
-        //         this.taskStore.tasks.splice(index, 1);
-        //     }
-        // },
 
         removeTask: function (id: number) {
             const index = this.taskStore.tasks.findIndex(item => item.id === id);
             console.log(index);
             console.log(id);
-            
 
             // if (index !== -1) {
-                axios.delete('http://localhost:8000/delete/' + id)
+            axios.delete('http://localhost:8000/delete/' + id)
                 .then(function (response) {
-                        console.log('id supprimé:' + id);
-                        useTaskStore().fetchTasks();                                                
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                    console.log('id supprimé:' + id);
+                    useTaskStore().fetchTasks();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
             // }
         },
 
@@ -151,25 +129,11 @@ export default {
             const task = this.taskStore.tasks.find(item => item.id === taskId);
             if (task) {
                 task.selected = isChecked;
-                //console.log(isChecked);
 
                 task.status = isChecked ? 'terminée' : 'à faire';
             }
         },
 
-        generateNewId: function () {
-
-            if (this.taskStore.tasks.length === 0) {
-                const newId = 1;
-                return newId;
-            } else {
-                const lastId = this.taskStore.tasks[this.taskStore.tasks.length - 1].id;
-                //console.log(lastId);
-                const newId = lastId + 1;
-                //console.log(newId);
-                return newId;
-            }
-        },
 
         setSelectedStatus: function (status: string) {
             this.taskStore.setStatus(status);
@@ -179,16 +143,9 @@ export default {
 
     computed: {
         filteredTasks: function () {
-            console.log(this.taskStore.filtered);
             return this.taskStore.filtered;
         }
     },
-
-    watch: {
-        status: 'setSelectedStatus',
-    },
-
-
 
 }
 
