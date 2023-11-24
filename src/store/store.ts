@@ -32,7 +32,6 @@ export const useTaskStore = defineStore('taskStore', {
       try {
         const response = await axios.get<ITask[]>(this.APIUrl + '/tasks');
         this.tasks = response.data;
-
         return true;
       } catch (error) {
         console.error('Erreur lors de la requête API', error);
@@ -57,16 +56,25 @@ export const useTaskStore = defineStore('taskStore', {
       }
     },
 
-    async removeTask (id:number) {
-      try{
+    async removeTask(id: number) {
+      try {
         await axios.delete(this.APIUrl + '/delete/' + id)
         this.fetchTasks();
       } catch (error) {
-        console.error(`Erreur lors de la suppression de la tâche avec l'ID ${id}`, error);
+        console.error(`Erreur lors de la suppression de la tâche avec l\'ID ${id}`, error);
+      }
+    },
+
+    async updateTask(id: number, updatedData : Partial<ITask>){
+      try {
+        await axios.patch(this.APIUrl + '/update/' + id, updatedData);
+        this.fetchTasks();
+      } catch (error){
+        console.error('Erreur lors de la modification de la tâche avec l\'ID ${id}', error);
+        
       }
     }
   },
-
 
   getters: {
 
@@ -78,20 +86,17 @@ export const useTaskStore = defineStore('taskStore', {
       // je duplique le tableau
       let tasksToFilter = state.tasks;
       this.selectedStatus = state.selectedStatus;
-
       // si la barre de recherche n'est pas vide
       if (state.searchText.trim() !== '') {
         tasksToFilter = tasksToFilter.filter(item =>
           item.title.toLowerCase().includes(state.searchText.toLowerCase())
         );
       };
-
       // si j'ai un statut !all, je filtre et retourne
       if (state.selectedStatus !== 'all') {
         tasksToFilter = tasksToFilter.filter(item => item.status === state.selectedStatus
         );
       }
-
       //je retourne le tableau
       return tasksToFilter;
     },

@@ -52,8 +52,6 @@
 import SearchBar from './SearchBar.vue';
 import List from './List.vue';
 
-import axios from 'axios';
-
 import { useTaskStore } from '../store/store';
 
 export default {
@@ -93,7 +91,6 @@ export default {
             this.taskStore.removeTask(id);
         },
 
-
         applyFilterByName: function (query: string) {
             this.taskStore.searchText = query;
         },
@@ -102,7 +99,6 @@ export default {
             const task = this.taskStore.tasks.find(item => item.id === taskId);
             if (task) {
                 task.selected = isChecked;
-
                 task.status = isChecked ? 'terminée' : 'à faire';
             }
         },
