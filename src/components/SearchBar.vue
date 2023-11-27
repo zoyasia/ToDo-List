@@ -21,7 +21,7 @@ export default {
 
   // intégrer un watcher qui lance le filtre dès que la query change
   watch: {
-    updateQuery: function () {
+    query: function () {
       this.applyFilter();
     },
   },

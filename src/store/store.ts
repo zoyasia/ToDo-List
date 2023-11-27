@@ -28,6 +28,10 @@ export const useTaskStore = defineStore('taskStore', {
       this.selectedStatus = status;
     },
 
+    applyFilterByName: function (query: string) {
+      this.searchText = query;
+  },
+
     async fetchTasks() {
       try {
         const response = await axios.get<ITask[]>(this.APIUrl + '/tasks');

@@ -80,7 +80,7 @@ export default {
             }
         },
 
-        updateTask(id: number) {
+        updateTask() {
             const updatedData = {
                 title: this.updatedTitle,
                 description: this.updatedDescription,

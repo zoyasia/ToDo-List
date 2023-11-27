@@ -4,7 +4,7 @@
 
         <div>
             <h2>Rechercher une tâche</h2>
-            <SearchBar @apply-filter="applyFilterByName" />
+            <SearchBar @apply-filter="taskStore.applyFilterByName" />
         </div>
 
         <br>
@@ -89,10 +89,6 @@ export default {
 
         removeTask: function (id: number) {
             this.taskStore.removeTask(id);
-        },
-
-        applyFilterByName: function (query: string) {
-            this.taskStore.searchText = query;
         },
 
         updateTaskStatus: function (taskId: number, isChecked: boolean) {

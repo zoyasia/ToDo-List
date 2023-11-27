@@ -43,14 +43,13 @@ export default {
     methods: {
 
         removeTask(id: number) {
-            const index = this.tasks.findIndex(item => item.id === id);
-            //console.log(index);
-            if (index !== -1) {
-                this.tasks.splice(index, 1);
-                // transmet le emit au niveau plus haut (Home)
-                this.$emit('delete', id);
-                //console.log(id);
-
+            if (this.tasks) {
+                const index = this.tasks.findIndex(item => item.id === id);
+                if (index !== -1) {
+                    this.tasks.splice(index, 1);
+                    // transmet le emit au niveau plus haut (Home)
+                    this.$emit('delete', id);
+                }
             }
         },
     },
