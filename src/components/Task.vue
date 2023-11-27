@@ -1,4 +1,4 @@
-<template id="table">
+<template id="table" class="root">
     <td><input v-model="task.selected" type="checkbox" @change="updateTaskStatus(task.id, task.selected)"></td>
     <th>{{ task.title }}</th>
     <td>{{ task.description }}</td>
@@ -8,13 +8,13 @@
         <button class="btn btn-primary" @click="showModal = true">Modifier</button>
     </td>
 
-
-    <Teleport to="#teleport-target">
-        <div v-show="showModal">
+<!-- -->
+    <Teleport to="#modal">
+        <div v-if="showModal" class="modale">
             <div>
                 <div class="modal-header">
                     <h5 class="modal-title">Modifier cette tâche : {{ task.title }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" @click="showModal = false" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <label for="updatedTitle">Tâche :</label>
@@ -25,7 +25,7 @@
                     <input v-model="updatedDeadline" id="updatedDeadline" type="date" class="form-control">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary" @click="showModal = false">Fermer</button>
                     <button type="button" class="btn btn-primary" @click="updateTask">Enregistrer</button>
                 </div>
 
@@ -33,6 +33,7 @@
 
         </div>
     </Teleport>
+<!-- -->
 
 </template>
     
@@ -85,7 +86,7 @@ export default {
                 description: this.updatedDescription,
                 deadline: this.updatedDeadline
             }
-            this.taskStore.updateTask(id, updatedData);
+            this.taskStore.updateTask(this.task.id, updatedData);
             this.showModal = false;
         }
     },
@@ -93,3 +94,15 @@ export default {
 };
 
 </script>
+
+<style>
+.root {
+    position: relative;
+}
+
+.modale {
+    position: absolute;
+}
+
+
+</style>

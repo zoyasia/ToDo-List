@@ -70,7 +70,7 @@ export const useTaskStore = defineStore('taskStore', {
         await axios.patch(this.APIUrl + '/update/' + id, updatedData);
         this.fetchTasks();
       } catch (error){
-        console.error('Erreur lors de la modification de la tâche avec l\'ID ${id}', error);
+        console.error('Erreur lors de la modification de la tâche avec l\'ID:' + id, error);
         
       }
     }

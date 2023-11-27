@@ -1,7 +1,6 @@
 <template>
   <main>
     <NavBar></NavBar>
-    <div id="dest"></div>
     <RouterView></RouterView>
     
   </main>
