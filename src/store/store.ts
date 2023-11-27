@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import axios from 'axios';
+import { fetchTasks, createTask, updateTask, deleteTask } from '../api/tasks';
 
 export interface ITask {
   id: number,
@@ -12,8 +12,6 @@ export interface ITask {
 
 export const useTaskStore = defineStore('taskStore', {
   state: () => ({
-
-    APIUrl: "http://localhost:8000",
     tasks: [] as ITask[],
     searchText: '',
     newTask: '',
@@ -34,35 +32,32 @@ export const useTaskStore = defineStore('taskStore', {
 
     async fetchTasks() {
       try {
-        const response = await axios.get<ITask[]>(this.APIUrl + '/tasks');
-        this.tasks = response.data;
-        return true;
+        const tasks = await fetchTasks();
+        this.tasks = tasks;
       } catch (error) {
-        console.error('Erreur lors de la requête API', error);
-        return false;
+        console.error('Erreur lors de la récupération des tâches dans le store', error);
       }
     },
 
     async addTask(newTask: string, newDescription: string, newDeadline: string) {
       if (newTask.trim() !== '') {
         try {
-          await axios.post(this.APIUrl + '/new', {
+          const newTaskData = {
             title: newTask,
             description: newDescription,
             deadline: newDeadline,
-          });
+          };
+          await createTask(newTaskData);
           this.fetchTasks();
-          return true;
         } catch (error) {
-          console.error('Erreur lors de l\'ajout de la tâche', error);
-          return false;
+          console.error('Erreur lors de l\'ajout de la tâche dans le store', error);
         }
       }
     },
 
     async removeTask(id: number) {
       try {
-        await axios.delete(this.APIUrl + '/delete/' + id)
+        await deleteTask(id);
         this.fetchTasks();
       } catch (error) {
         console.error(`Erreur lors de la suppression de la tâche avec l\'ID ${id}`, error);
@@ -71,11 +66,10 @@ export const useTaskStore = defineStore('taskStore', {
 
     async updateTask(id: number, updatedData : Partial<ITask>){
       try {
-        await axios.patch(this.APIUrl + '/update/' + id, updatedData);
+        await updateTask(id, updatedData);
         this.fetchTasks();
       } catch (error){
         console.error('Erreur lors de la modification de la tâche avec l\'ID:' + id, error);
-        
       }
     }
   },
