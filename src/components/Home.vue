@@ -94,7 +94,7 @@ export default {
         updateTaskStatus: function (taskId: number, isChecked: boolean) {
             const task = this.taskStore.tasks.find(item => item.id === taskId);
             if (task) {
-                task.selected = isChecked;
+                task.isCompleted = isChecked;
                 task.status = isChecked ? 'terminée' : 'à faire';
             }
         },

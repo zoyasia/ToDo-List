@@ -7,7 +7,7 @@ export interface ITask {
   description: string,
   deadline: string,
   status: string,
-  selected: boolean,
+  isCompleted: boolean,
 }
 
 export const useTaskStore = defineStore('taskStore', {

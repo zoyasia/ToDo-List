@@ -1,5 +1,5 @@
 <template id="table" class="root">
-    <td><input v-model="task.selected" type="checkbox" @change="updateTaskStatus(task.id, task.selected)"></td>
+    <td><input v-model="task.isCompleted" type="checkbox" @change="updateTaskStatus(task.id, task.isCompleted)"></td>
     <th>{{ task.title }}</th>
     <td>{{ task.description }}</td>
     <td>{{ task.status }}</td>
@@ -74,7 +74,7 @@ export default {
         updateTaskStatus: function (taskId: number, isChecked: boolean) {
             taskId = this.task.id;
             if (taskId) {
-                this.task.selected = isChecked;
+                this.task.isCompleted = isChecked;
                 this.task.status = isChecked ? 'terminée' : 'à faire';
             }
         },
