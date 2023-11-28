@@ -8,7 +8,7 @@
         <button class="btn btn-primary" @click="showModal = true">Modifier</button>
     </td>
 
-<!-- -->
+    <!-- -->
     <Teleport to="#modal">
         <div v-if="showModal" class="modale">
             <div>
@@ -33,8 +33,7 @@
 
         </div>
     </Teleport>
-<!-- -->
-
+    <!-- -->
 </template>
     
 <script lang="ts">
@@ -103,6 +102,4 @@ export default {
 .modale {
     position: absolute;
 }
-
-
 </style>

@@ -28,7 +28,7 @@ export const useTaskStore = defineStore('taskStore', {
 
     applyFilterByName: function (query: string) {
       this.searchText = query;
-  },
+    },
 
     async fetchTasks() {
       try {
@@ -64,11 +64,11 @@ export const useTaskStore = defineStore('taskStore', {
       }
     },
 
-    async updateTask(id: number, updatedData : Partial<ITask>){
+    async updateTask(id: number, updatedData: Partial<ITask>) {
       try {
         await updateTask(id, updatedData);
         this.fetchTasks();
-      } catch (error){
+      } catch (error) {
         console.error('Erreur lors de la modification de la tâche avec l\'ID:' + id, error);
       }
     }
