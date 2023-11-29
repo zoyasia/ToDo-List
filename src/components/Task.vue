@@ -4,9 +4,11 @@
     <td>{{ task.description }}</td>
     <td>{{ task.status }}</td>
     <td>{{ task.deadline }}</td>
-    <td><button class="btn btn-danger" @click="deleteItem">Supprimer</button>
+    <td><button class="btn btn-danger" @click="visible = true">Supprimer</button>
+        <ConfirmDialogue v-if="visible" @close="closeDialog()" @delete=""></ConfirmDialogue>
         <button class="btn btn-primary" @click="showModal = true">Modifier</button>
     </td>
+
 
     <!-- -->
     <Teleport to="#modal">
@@ -40,6 +42,7 @@
 
 import type { ITask } from '@/store/store';
 import { useTaskStore } from '../store/store';
+import ConfirmDialogue from '../components/ConfirmDialogue.vue';
 
 export default {
 
@@ -59,12 +62,15 @@ export default {
 
     data() {
         return {
+            visible: false,
             showModal: false,
             updatedTitle: '',
             updatedDescription: '',
             updatedDeadline: '',
         };
     },
+
+    components: { ConfirmDialogue },
 
     methods: {
         deleteItem() {
@@ -87,10 +93,30 @@ export default {
             }
             this.taskStore.updateTask(this.task.id, updatedData);
             this.showModal = false;
-        }
+        },
+
+        doDelete() {
+            this.$emit('delete');
+        },
+
+        closeDialog() {
+            this.visible = false;
+        },
+
+
+        onConfirmDelete() {
+            // Action to perform when deletion is confirmed
+            alert('You have successfully deleted this page.');
+        },
+        onCancel() {
+            // Action to perform when deletion is cancelled
+            alert('You chose not to delete this page. Doing nothing now.');
+        },
+
+
     },
 
-};
+}
 
 </script>
 
