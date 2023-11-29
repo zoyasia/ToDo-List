@@ -14,7 +14,7 @@ export const fetchTasks = async () => {
 
 export const createTask = async (newTaskData: any) => {
     try {
-        const response = await axios.post(`${API_URL}/new`, newTaskData);
+        const response = await axios.post(`${API_URL}/tasks`, newTaskData);
         return response.data;
     } catch (error) {
         console.error('Erreur lors de la création d\'une tâche', error);
@@ -24,7 +24,7 @@ export const createTask = async (newTaskData: any) => {
 
 export const updateTask = async (taskId: number, updatedTaskData: any) => {
     try {
-        const response = await axios.patch(`${API_URL}/update/${taskId}`, updatedTaskData);
+        const response = await axios.patch(`${API_URL}/task/${taskId}`, updatedTaskData);
         return response.data;
     } catch (error) {
         console.error('Erreur lors de la mise à jour de la tâche', error);
@@ -34,7 +34,7 @@ export const updateTask = async (taskId: number, updatedTaskData: any) => {
 
 export const deleteTask = async (taskId: number) => {
     try {
-        const response = await axios.delete(`${API_URL}/delete/${taskId}`);
+        const response = await axios.delete(`${API_URL}/task/${taskId}`);
         return response.data;
     } catch (error) {
         console.error('Erreur lors de la suppression de la tâche', error);
