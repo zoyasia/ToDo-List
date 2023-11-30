@@ -1,20 +1,13 @@
 <template>
     <PopupModal ref="popup">
         <template v-slot:header>{{ title }}</template>
-
         <template v-slot:body>{{ message }}</template>
-
         <template v-slot:footer>
-            <div>
-                Cette action est définitive
                 <div class="btns">
-                    <button class="cancel-btn" @click="cancel">{{ cancelButton }}</button>
-                    <button class="ok-btn" @click="confirmDelete">{{ okButton }}</button>
+                    <button class="btn btn-secondary" @click="cancel">{{ cancelButton }}</button>
+                    <button class="btn btn-danger" @click="confirmDelete">{{ deleteButton }}</button>
                 </div>
-            </div>
-
         </template>
-
     </PopupModal>
 </template>
 
@@ -28,15 +21,10 @@ export default {
     components: { PopupModal },
 
     data: () => ({
-        // Parameters that change depending on the type of dialogue
         title: 'Confirmation suppression',
-        message: 'Êtes-vous sûr.e de vouloir supprimer cette tâche ?', // Main text content
-        okButton: 'Supprimer',
+        message: 'Êtes-vous sûr.e de vouloir supprimer cette tâche ?',
+        deleteButton: 'Supprimer',
         cancelButton: 'Annuler',
-
-        // Private variables
-        resolvePromise: undefined,
-        rejectPromise: undefined,
     }),
 
     methods: {
@@ -52,3 +40,13 @@ export default {
     },
 }
 </script>
+
+
+<style scoped>
+.btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+</style>

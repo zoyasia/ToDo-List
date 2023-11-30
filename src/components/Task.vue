@@ -5,7 +5,8 @@
     <td>{{ task.status }}</td>
     <td>{{ task.deadline }}</td>
     <td><button class="btn btn-danger" @click="visible = true">Supprimer</button>
-        <ConfirmDialogue v-if="visible" @close="closeDialog()" @delete=""></ConfirmDialogue>
+        <ConfirmDialogue v-if="visible" @close="closeDialog()" @cancel="visible = false" @delete="doDelete()">
+        </ConfirmDialogue>
         <button class="btn btn-primary" @click="showModal = true">Modifier</button>
     </td>
 
@@ -102,17 +103,6 @@ export default {
         closeDialog() {
             this.visible = false;
         },
-
-
-        onConfirmDelete() {
-            // Action to perform when deletion is confirmed
-            alert('You have successfully deleted this page.');
-        },
-        onCancel() {
-            // Action to perform when deletion is cancelled
-            alert('You chose not to delete this page. Doing nothing now.');
-        },
-
 
     },
 
