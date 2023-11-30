@@ -4,14 +4,17 @@
     <td>{{ task.description }}</td>
     <td>{{ task.status }}</td>
     <td>{{ task.deadline }}</td>
-    <td><button class="btn btn-danger" @click="visible = true">Supprimer</button>
-        <ConfirmDialogue v-if="visible" @close="closeDialog()" @cancel="visible = false" @delete="doDelete()">
+    <td>
+        <button class="btn btn-danger" @click="visible = true">Supprimer</button>
+        <ConfirmDialogue v-if="visible" @close="closeDelete()" @cancel="visible = false" @delete="doDelete()">
         </ConfirmDialogue>
+
         <button class="btn btn-primary" @click="showModal = true">Modifier</button>
+        <UpdateDialogue v-if="showModal" @close="closeUpdate()" @cancel="showModal = false" @update="updateTask()"></UpdateDialogue>
     </td>
 
 
-    <!-- -->
+    <!-- 
     <Teleport to="#modal">
         <div v-if="showModal" class="modale">
             <div>
@@ -36,14 +39,15 @@
 
         </div>
     </Teleport>
-    <!-- -->
+    -->
 </template>
     
 <script lang="ts">
 
 import type { ITask } from '@/store/store';
 import { useTaskStore } from '../store/store';
-import ConfirmDialogue from '../components/ConfirmDialogue.vue';
+import ConfirmDialogue from '../components/Modals/ConfirmDialogue.vue';
+import UpdateDialogue from './Modals/UpdateDialogue.vue';
 
 export default {
 
@@ -71,7 +75,7 @@ export default {
         };
     },
 
-    components: { ConfirmDialogue },
+    components: { ConfirmDialogue, UpdateDialogue },
 
     methods: {
         deleteItem() {
@@ -100,8 +104,12 @@ export default {
             this.$emit('delete');
         },
 
-        closeDialog() {
+        closeDelete() {
             this.visible = false;
+        },
+
+        closeUpdate() {
+            this.showModal = false;
         },
 
     },
