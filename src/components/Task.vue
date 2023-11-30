@@ -5,43 +5,17 @@
     <td>{{ task.status }}</td>
     <td>{{ task.deadline }}</td>
     <td>
-        <button class="btn btn-danger" @click="visible = true">Supprimer</button>
-        <ConfirmDialogue v-if="visible" @close="closeDelete()" @cancel="visible = false" @delete="doDelete()">
+        <button class="btn btn-danger" @click="showDeleteModal = true">Supprimer</button>
+        <ConfirmDialogue v-if="showDeleteModal" @close="closeDelete()" @cancel="showDeleteModal = false"
+            @delete="doDelete()">
         </ConfirmDialogue>
 
-        <button class="btn btn-primary" @click="showModal = true">Modifier</button>
-        <UpdateDialogue v-if="showModal" @close="closeUpdate()" @cancel="showModal = false" @update="onUpdate"></UpdateDialogue>
+        <button class="btn btn-primary" @click="showUpdateModal = true">Modifier</button>
+        <UpdateDialogue v-if="showUpdateModal" @close="closeUpdate()" @cancel="showUpdateModal = false" @update="onUpdate">
+        </UpdateDialogue>
     </td>
-
-
-    <!-- 
-    <Teleport to="#modal">
-        <div v-if="showModal" class="modale">
-            <div>
-                <div class="modal-header">
-                    <h5 class="modal-title">Modifier cette tâche : {{ task.title }}</h5>
-                    <button type="button" class="btn-close" @click="showModal = false" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <label for="updatedTitle">Tâche :</label>
-                    <input v-model="updatedTitle" id="updatedTitle" type="text" class="form-control">
-                    <label for="updatedDescription">Description :</label>
-                    <input v-model="updatedDescription" id="updatedDescription" type="text" class="form-control">
-                    <label for="updatedDeadline">Deadline :</label>
-                    <input v-model="updatedDeadline" id="updatedDeadline" type="date" class="form-control">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" @click="showModal = false">Fermer</button>
-                    <button type="button" class="btn btn-primary" @click="updateTask">Enregistrer</button>
-                </div>
-
-            </div>
-
-        </div>
-    </Teleport>
-    -->
 </template>
-    
+
 <script lang="ts">
 
 import type { ITask } from '@/store/store';
@@ -67,8 +41,8 @@ export default {
 
     data() {
         return {
-            visible: false,
-            showModal: false,
+            showDeleteModal: false,
+            showUpdateModal: false,
             title: '',
             description: '',
             deadline: '',
@@ -79,14 +53,16 @@ export default {
 
     methods: {
 
-        onUpdate(title:string, description:string, deadline:string ) {
+        onUpdate(data: any) {
             const updatedData = {
-                title, 
-                description,
-                deadline
+                title: data.title,
+                description: data.description,
+                deadline: data.deadline,
             }
-            console.log('Nouvelles données :', updatedData);
+            console.log(updatedData);
+
             this.taskStore.updateTask(this.task.id, updatedData);
+            this.showUpdateModal = false;
 
         },
 
@@ -102,36 +78,17 @@ export default {
             }
         },
 
-        // updateTask() {
-        //     const updatedData = {
-        //         title: this.updatedTitle,
-        //         description: this.updatedDescription,
-        //         deadline: this.updatedDeadline
-        //     }
-        //     this.taskStore.updateTask(this.task.id, updatedData);
-        //     this.showModal = false;
-        // },
-
-        // updateTask () {
-        //     const updatedData = {
-        //         title: this.title,
-        //         description: this.description,
-        //         deadline: this.deadline
-        //     }
-        //     console.log('Nouvelles données :', updatedData);
-        //     this.taskStore.updateTask(this.task.id, updatedData);
-        // },
 
         doDelete() {
             this.$emit('delete');
         },
 
         closeDelete() {
-            this.visible = false;
+            this.showDeleteModal = false;
         },
 
         closeUpdate() {
-            this.showModal = false;
+            this.showUpdateModal = false;
         },
 
     },
@@ -139,13 +96,3 @@ export default {
 }
 
 </script>
-
-<style>
-.root {
-    position: relative;
-}
-
-.modale {
-    position: absolute;
-}
-</style>

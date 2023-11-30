@@ -49,7 +49,7 @@ export default {
 
         confirmUpdate() {
             console.log(this.updatedTitle);
-            
+
             this.$emit('update', {
                 title: this.updatedTitle,
                 description: this.updatedDescription,
