@@ -9,7 +9,7 @@
 
             <footer class="modal-footer">
                 <slot name="footer"></slot>
-                <button type="button" class="btn-open-modal" @click="close" aria-label="Close Modal">Close Modal</button>
+                <button type="button" class="btn-open-modal" @click="close" aria-label="Close Modal">Fermer</button>
             </footer>
 
         </div>

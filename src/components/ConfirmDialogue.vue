@@ -1,14 +1,20 @@
 <template>
     <PopupModal ref="popup">
-        <template v-slot:header> Modal Header </template>
+        <template v-slot:header>{{ title }}</template>
 
-        <template v-slot:body> You can put your contents within body </template>
+        <template v-slot:body>{{ message }}</template>
 
-        <template v-slot:footer> You can put your footer here </template>
-        <div class="btns">
-            <button class="cancel-btn" @click="cancel">{{ cancelButton }}</button>
-            <span class="ok-btn" @click="confirmDelete">{{ okButton }}</span>
-        </div>
+        <template v-slot:footer>
+            <div>
+                Cette action est définitive
+                <div class="btns">
+                    <button class="cancel-btn" @click="cancel">{{ cancelButton }}</button>
+                    <button class="ok-btn" @click="confirmDelete">{{ okButton }}</button>
+                </div>
+            </div>
+
+        </template>
+
     </PopupModal>
 </template>
 
@@ -23,10 +29,10 @@ export default {
 
     data: () => ({
         // Parameters that change depending on the type of dialogue
-        title: undefined,
-        message: undefined, // Main text content
-        okButton: undefined, // Text for confirm button; leave it empty because we don't know what we're using it for
-        cancelButton: 'Go Back', // text for cancel button
+        title: 'Confirmation suppression',
+        message: 'Êtes-vous sûr.e de vouloir supprimer cette tâche ?', // Main text content
+        okButton: 'Supprimer',
+        cancelButton: 'Annuler',
 
         // Private variables
         resolvePromise: undefined,
