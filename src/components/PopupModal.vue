@@ -1,22 +1,16 @@
 <template>
     <transition name="fade">
-        <div class="popup-modal" v-if="isVisible">
+        <div class="popup-modal">
             <header class="modal-header" id="modalTitle">
                 <slot name="header"></slot>
-                <button type="button" class="close-btn" @click="close" aria-label="Close Modal">
-                    x
-                </button>
+                <button type="button" class="close-btn" @click="close" aria-label="Close Modal">x</button>
             </header>
-
             <slot name="body"></slot>
 
             <footer class="modal-footer">
                 <slot name="footer"></slot>
-                <button type="button" class="btn-open-modal" @click="close" aria-label="Close Modal">
-                    Close Modal
-                </button>
+                <button type="button" class="btn-open-modal" @click="close" aria-label="Close Modal">Close Modal</button>
             </footer>
-
 
         </div>
     </transition>
