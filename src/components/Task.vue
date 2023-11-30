@@ -10,7 +10,7 @@
         </ConfirmDialogue>
 
         <button class="btn btn-primary" @click="showModal = true">Modifier</button>
-        <UpdateDialogue v-if="showModal" @close="closeUpdate()" @cancel="showModal = false" @update="updateTask()"></UpdateDialogue>
+        <UpdateDialogue v-if="showModal" @close="closeUpdate()" @cancel="showModal = false" @update="onUpdate"></UpdateDialogue>
     </td>
 
 
@@ -69,15 +69,27 @@ export default {
         return {
             visible: false,
             showModal: false,
-            updatedTitle: '',
-            updatedDescription: '',
-            updatedDeadline: '',
+            title: '',
+            description: '',
+            deadline: '',
         };
     },
 
     components: { ConfirmDialogue, UpdateDialogue },
 
     methods: {
+
+        onUpdate(title:string, description:string, deadline:string ) {
+            const updatedData = {
+                title, 
+                description,
+                deadline
+            }
+            console.log('Nouvelles données :', updatedData);
+            this.taskStore.updateTask(this.task.id, updatedData);
+
+        },
+
         deleteItem() {
             this.$emit('delete');
         },
@@ -90,15 +102,25 @@ export default {
             }
         },
 
-        updateTask() {
-            const updatedData = {
-                title: this.updatedTitle,
-                description: this.updatedDescription,
-                deadline: this.updatedDeadline
-            }
-            this.taskStore.updateTask(this.task.id, updatedData);
-            this.showModal = false;
-        },
+        // updateTask() {
+        //     const updatedData = {
+        //         title: this.updatedTitle,
+        //         description: this.updatedDescription,
+        //         deadline: this.updatedDeadline
+        //     }
+        //     this.taskStore.updateTask(this.task.id, updatedData);
+        //     this.showModal = false;
+        // },
+
+        // updateTask () {
+        //     const updatedData = {
+        //         title: this.title,
+        //         description: this.description,
+        //         deadline: this.deadline
+        //     }
+        //     console.log('Nouvelles données :', updatedData);
+        //     this.taskStore.updateTask(this.task.id, updatedData);
+        // },
 
         doDelete() {
             this.$emit('delete');

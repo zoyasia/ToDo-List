@@ -3,15 +3,15 @@
         <template v-slot:header>{{ title }}</template>
         <template v-slot:body>
             <div>
-                <label for="updatedTitle">Intitulé de la tâche :</label>
+                <label for="newTitle">Intitulé de la tâche :</label>
                 <input v-model="updatedTitle" id="updatedTitle" type="text" class="form-control">
             </div>
             <div>
-                <label for="updatedDescription">Description :</label>
+                <label for="newDescription">Description :</label>
                 <input v-model="updatedDescription" id="updatedDescription" type="text" class="form-control">
             </div>
             <div>
-                <label for="updatedDeadline">Deadline :</label>
+                <label for="newDeadline">Deadline :</label>
                 <input v-model="updatedDeadline" id="updatedDeadline" type="date" class="form-control">
 
             </div>
@@ -43,15 +43,28 @@ export default {
         updatedDeadline: '',
     }),
 
+    emits: ["update", "cancel", "closeUpdate"],
+
     methods: {
 
         confirmUpdate() {
-            this.$emit('update', this.updatedTitle, this.updatedDeadline, this.updatedDescription); // Émettre un événement de modification vers le parent (Task.vue)
+            console.log(this.updatedTitle);
+            
+            this.$emit('update', {
+                title: this.updatedTitle,
+                description: this.updatedDescription,
+                deadline: this.updatedDeadline,
+            });
+
         },
 
         cancel() {
             this.$emit('cancel');
-        }
+        },
+
+        closeModal() {
+            this.$emit('closeUpdate');
+        },
 
     },
 }
