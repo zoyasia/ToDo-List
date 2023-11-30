@@ -1,6 +1,8 @@
 <template>
     <PopupModal ref="popup">
+
         <template v-slot:header>{{ title }}</template>
+
         <template v-slot:body>
             <div>
                 <label for="newTitle">Intitulé de la tâche :</label>
@@ -13,15 +15,16 @@
             <div>
                 <label for="newDeadline">Deadline :</label>
                 <input v-model="updatedDeadline" id="updatedDeadline" type="date" class="form-control">
-
             </div>
         </template>
+
         <template v-slot:footer>
             <div class="btns">
                 <button class="btn btn-secondary" @click="cancel">{{ cancelButton }}</button>
                 <button class="btn btn-success" @click="confirmUpdate">{{ updateButton }}</button>
             </div>
         </template>
+
     </PopupModal>
 </template>
 
@@ -48,14 +51,11 @@ export default {
     methods: {
 
         confirmUpdate() {
-            console.log(this.updatedTitle);
-
             this.$emit('update', {
                 title: this.updatedTitle,
                 description: this.updatedDescription,
                 deadline: this.updatedDeadline,
             });
-
         },
 
         cancel() {
@@ -65,11 +65,9 @@ export default {
         closeModal() {
             this.$emit('closeUpdate');
         },
-
     },
 }
 </script>
-
 
 <style scoped>
 .btns {

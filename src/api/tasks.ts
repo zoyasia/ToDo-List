@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:8000';
 
-export const fetchTasks = async () => {
+export const fetchAll = async () => {
     try {
         const response = await axios.get(`${API_URL}/tasks`);
         return response.data;
@@ -12,7 +12,7 @@ export const fetchTasks = async () => {
     }
 };
 
-export const createTask = async (newTaskData: any) => {
+export const create = async (newTaskData: any) => {
     try {
         const response = await axios.post(`${API_URL}/tasks`, newTaskData);
         return response.data;
@@ -22,7 +22,7 @@ export const createTask = async (newTaskData: any) => {
     }
 };
 
-export const updateTask = async (taskId: number, updatedTaskData: any) => {
+export const update = async (taskId: number, updatedTaskData: any) => {
     try {
         const response = await axios.patch(`${API_URL}/task/${taskId}`, updatedTaskData);
         return response.data;
@@ -32,7 +32,7 @@ export const updateTask = async (taskId: number, updatedTaskData: any) => {
     }
 };
 
-export const deleteTask = async (taskId: number) => {
+export const remove = async (taskId: number) => {
     try {
         const response = await axios.delete(`${API_URL}/task/${taskId}`);
         return response.data;

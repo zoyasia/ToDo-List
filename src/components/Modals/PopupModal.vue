@@ -1,23 +1,19 @@
 <template>
     <transition name="fade">
         <div>
-           <div class="popup-modal modal-dialog">
-            <div class="modal-content">
-                <header class="modal-header" id="modalTitle">
-                    <slot name="header" class="modal-title"></slot>
-                    <button type="button" class="btn-close" @click="close" aria-label="Close Modal"></button>
-                </header>
-                <slot name="body" class="modal-body"></slot>
-
-                <footer class="modal-footer">
-                    <slot name="footer"></slot>
-                </footer>
+            <div class="popup-modal modal-dialog">
+                <div class="modal-content">
+                    <header class="modal-header" id="modalTitle">
+                        <slot name="header" class="modal-title"></slot>
+                        <button type="button" class="btn-close" @click="close" aria-label="Close Modal"></button>
+                    </header>
+                    <slot name="body" class="modal-body"></slot>
+                    <footer class="modal-footer">
+                        <slot name="footer"></slot>
+                    </footer>
+                </div>
             </div>
-
-
-        </div> 
         </div>
-        
     </transition>
 </template>
 
@@ -38,13 +34,12 @@ export default {
 }
 </script>
 
-
 <style scoped>
-
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.3s;
 }
+
 .fade-enter,
 .fade-leave-to {
     opacity: 0;
@@ -62,5 +57,4 @@ export default {
     align-items: center;
     z-index: 1;
 }
-
 </style>

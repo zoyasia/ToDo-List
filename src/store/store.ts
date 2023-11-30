@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { fetchTasks, createTask, updateTask, deleteTask } from '../api/tasks';
+import { fetchAll, create, update, remove } from '../api/tasks';
 
 export interface ITask {
   id: number,
@@ -32,7 +32,7 @@ export const useTaskStore = defineStore('taskStore', {
 
     async fetchTasks() {
       try {
-        const tasks = await fetchTasks();
+        const tasks = await fetchAll();
         this.tasks = tasks;
       } catch (error) {
         console.error('Erreur lors de la récupération des tâches dans le store', error);
@@ -47,7 +47,7 @@ export const useTaskStore = defineStore('taskStore', {
             description: newDescription,
             deadline: newDeadline,
           };
-          await createTask(newTaskData);
+          await create(newTaskData);
           this.fetchTasks();
         } catch (error) {
           console.error('Erreur lors de l\'ajout de la tâche dans le store', error);
@@ -57,7 +57,7 @@ export const useTaskStore = defineStore('taskStore', {
 
     async removeTask(id: number) {
       try {
-        await deleteTask(id);
+        await remove(id);
         this.fetchTasks();
       } catch (error) {
         console.error(`Erreur lors de la suppression de la tâche avec l\'ID ${id}`, error);
@@ -66,7 +66,7 @@ export const useTaskStore = defineStore('taskStore', {
 
     async updateTask(id: number, updatedData: Partial<ITask>) {
       try {
-        await updateTask(id, updatedData);
+        await update(id, updatedData);
         this.fetchTasks();
       } catch (error) {
         console.error('Erreur lors de la modification de la tâche avec l\'ID:' + id, error);

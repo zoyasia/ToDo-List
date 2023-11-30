@@ -41,7 +41,7 @@
         <br>
 
         <div class="table-responsive" data-bs-theme="dark">
-            <List :tasks="filteredTasks" @delete="removeTask"></List>
+            <List :tasks="filteredTasks"></List>
         </div>
 
     </div>
@@ -87,18 +87,6 @@ export default {
             this.newDeadline = '';
         },
 
-        removeTask: function (id: number) {
-            this.taskStore.removeTask(id);
-        },
-
-        updateTaskStatus: function (taskId: number, isChecked: boolean) {
-            const task = this.taskStore.tasks.find(item => item.id === taskId);
-            if (task) {
-                task.isCompleted = isChecked;
-                task.status = isChecked ? 'terminée' : 'à faire';
-            }
-        },
-
         setSelectedStatus: function (status: string) {
             this.taskStore.setStatus(status);
         },
@@ -112,6 +100,5 @@ export default {
     },
 
 }
-
 
 </script>

@@ -7,11 +7,12 @@
     <td>
         <button class="btn btn-danger" @click="showDeleteModal = true">Supprimer</button>
         <ConfirmDialogue v-if="showDeleteModal" @close="closeDelete()" @cancel="showDeleteModal = false"
-            @delete="doDelete()">
+            @delete="removeTask">
         </ConfirmDialogue>
 
         <button class="btn btn-primary" @click="showUpdateModal = true">Modifier</button>
-        <UpdateDialogue v-if="showUpdateModal" @close="closeUpdate()" @cancel="showUpdateModal = false" @update="onUpdate">
+        <UpdateDialogue v-if="showUpdateModal" @close="closeUpdate()" @cancel="showUpdateModal = false"
+            @update="updateTask">
         </UpdateDialogue>
     </td>
 </template>
@@ -29,8 +30,6 @@ export default {
         const taskStore = useTaskStore()
         return { taskStore }
     },
-
-    emits: ["delete"],
 
     props: {
         task: {
@@ -53,23 +52,6 @@ export default {
 
     methods: {
 
-        onUpdate(data: any) {
-            const updatedData = {
-                title: data.title,
-                description: data.description,
-                deadline: data.deadline,
-            }
-            console.log(updatedData);
-
-            this.taskStore.updateTask(this.task.id, updatedData);
-            this.showUpdateModal = false;
-
-        },
-
-        deleteItem() {
-            this.$emit('delete');
-        },
-
         updateTaskStatus: function (taskId: number, isChecked: boolean) {
             taskId = this.task.id;
             if (taskId) {
@@ -78,9 +60,20 @@ export default {
             }
         },
 
+        updateTask(data: any) {
+            const updatedData = {
+                title: data.title,
+                description: data.description,
+                deadline: data.deadline,
+            }
 
-        doDelete() {
-            this.$emit('delete');
+            this.taskStore.updateTask(this.task.id, updatedData);
+            this.showUpdateModal = false;
+        },
+
+        removeTask: function (id: number) {
+            this.taskStore.removeTask(this.task.id);
+            this.showDeleteModal = false;
         },
 
         closeDelete() {

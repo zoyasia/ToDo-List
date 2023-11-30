@@ -12,47 +12,27 @@
         </thead>
         <tbody>
             <tr v-for="task in tasks">
-                <Task :task="task" @delete="removeTask(task.id)"></Task>
+                <Task :task="task"></Task>
             </tr>
         </tbody>
     </table>
 </template>
-  
+
 <script lang="ts">
 import Task from './Task.vue';
-import { useTaskStore, type ITask } from '../store/store';
+import { type ITask } from '../store/store';
 
 export default {
-
-    setup() {
-        const taskStore = useTaskStore()
-        return { taskStore }
-    },
-
-    // remonter le emit qui vient de Task au cran du dessus (Home)
-    emits: ["delete"],
 
     components: {
         Task,
     },
+
     props: {
         tasks: {
             type: Array as () => ITask[],
         },
     },
-    methods: {
 
-        removeTask(id: number) {
-            if (this.tasks) {
-                const index = this.tasks.findIndex(item => item.id === id);
-                if (index !== -1) {
-                    this.tasks.splice(index, 1);
-                    // transmet le emit au niveau plus haut (Home)
-                    this.$emit('delete', id);
-                }
-            }
-        },
-    },
 };
 </script>
-
