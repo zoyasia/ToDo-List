@@ -1,12 +1,12 @@
 <template>
-    <PopupModal ref="popup">
+    <PopupModal v-if="modelValue">
         <template v-slot:header>{{ title }}</template>
         <template v-slot:body>{{ message }}</template>
         <template v-slot:footer>
-                <div class="btns">
-                    <button class="btn btn-secondary" @click="cancel">{{ cancelButton }}</button>
-                    <button class="btn btn-danger" @click="confirmDelete">{{ deleteButton }}</button>
-                </div>
+            <div class="btns">
+                <button class="btn btn-secondary" @click="cancel">{{ cancelButton }}</button>
+                <button class="btn btn-danger" @click="confirmDelete">{{ deleteButton }}</button>
+            </div>
         </template>
     </PopupModal>
 </template>
@@ -19,6 +19,10 @@ export default {
     name: 'ConfirmDialogue',
 
     components: { PopupModal },
+
+    props: {
+        modelValue: Boolean, // Déclare la prop qui sera utilisée pour v-model
+    },
 
     data: () => ({
         title: 'Confirmation suppression',
@@ -48,5 +52,4 @@ export default {
     flex-direction: row;
     justify-content: space-between;
 }
-
 </style>

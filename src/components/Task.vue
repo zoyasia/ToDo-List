@@ -5,13 +5,13 @@
     <td>{{ task.status }}</td>
     <td>{{ task.deadline }}</td>
     <td>
-        <button class="btn btn-danger" @click="showDeleteModal = true">Supprimer</button>
-        <ConfirmDialogue v-if="showDeleteModal" @close="closeDelete()" @cancel="showDeleteModal = false"
+        <button class="btn btn-danger" @click="showConfirm = true">Supprimer</button>
+        <ConfirmDialogue v-model="showConfirm" @close="closeDelete()" @cancel="showConfirm = false"
             @delete="removeTask">
         </ConfirmDialogue>
 
-        <button class="btn btn-primary" @click="showUpdateModal = true">Modifier</button>
-        <UpdateDialogue v-if="showUpdateModal" @close="closeUpdate()" @cancel="showUpdateModal = false"
+        <button class="btn btn-primary" @click="showUpdate = true">Modifier</button>
+        <UpdateDialogue v-model="showUpdate" @close="closeUpdate()" @cancel="showUpdate = false"
             @update="updateTask">
         </UpdateDialogue>
     </td>
@@ -40,8 +40,8 @@ export default {
 
     data() {
         return {
-            showDeleteModal: false,
-            showUpdateModal: false,
+            showConfirm: false,
+            showUpdate: false,
             title: '',
             description: '',
             deadline: '',
@@ -68,20 +68,20 @@ export default {
             }
 
             this.taskStore.updateTask(this.task.id, updatedData);
-            this.showUpdateModal = false;
+            this.showUpdate = false;
         },
 
         removeTask: function (id: number) {
             this.taskStore.removeTask(this.task.id);
-            this.showDeleteModal = false;
+            this.showConfirm = false;
         },
 
         closeDelete() {
-            this.showDeleteModal = false;
+            this.showConfirm = false;
         },
 
         closeUpdate() {
-            this.showUpdateModal = false;
+            this.showUpdate = false;
         },
 
     },

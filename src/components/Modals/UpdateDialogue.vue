@@ -1,5 +1,5 @@
 <template>
-    <PopupModal ref="popup">
+    <PopupModal v-if="modelValue">
 
         <template v-slot:header>{{ title }}</template>
 
@@ -37,6 +37,10 @@ export default {
 
     components: { PopupModal },
 
+    props: {
+        modelValue: Boolean, // Déclare la prop qui sera utilisée pour v-model
+    },
+
     data: () => ({
         title: 'Modification',
         updateButton: 'Enregistrer',
@@ -46,7 +50,7 @@ export default {
         updatedDeadline: '',
     }),
 
-    emits: ["update", "cancel", "closeUpdate"],
+    emits: ["update", "cancel", "closeUpdate", "update:modelValue"],
 
     methods: {
 
