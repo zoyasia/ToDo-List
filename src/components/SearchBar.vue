@@ -30,6 +30,7 @@ export default {
     applyFilter() {
       this.$emit('apply-filter', this.query);
     },
+    
   },
 
 };

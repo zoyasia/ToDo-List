@@ -18,17 +18,10 @@ export const useTaskStore = defineStore('taskStore', {
     newDescription: '',
     newDeadline: '',
     selectedStatus: 'all',
+    filterTimeout: 0,
   }),
 
   actions: {
-
-    setStatus(status: string) {
-      this.selectedStatus = status;
-    },
-
-    applyFilterByName: function (query: string) {
-      this.searchText = query;
-    },
 
     async fetchTasks() {
       try {
@@ -71,7 +64,29 @@ export const useTaskStore = defineStore('taskStore', {
       } catch (error) {
         console.error('Erreur lors de la modification de la tâche avec l\'ID:' + id, error);
       }
-    }
+    },
+
+    setStatus(status: string) {
+      this.selectedStatus = status;
+    },
+
+    applyFilterByName: function (query: string) {
+      this.searchText = query;
+    },
+
+    debounceNameFilter: function (query: string) {
+      // Annule le délai précédent s'il y en a un
+      if (this.filterTimeout) {
+        clearTimeout(this.filterTimeout);
+      }
+      // Définit un nouveau délai
+      this.filterTimeout = setTimeout(() => {
+        this.applyFilterByName(query);
+      }, 360);
+    },
+
+
+
   },
 
   getters: {
