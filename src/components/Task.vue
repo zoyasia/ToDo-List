@@ -6,13 +6,20 @@
     <td>{{ task.deadline }}</td>
     <td>
         <button class="btn btn-danger" @click="showConfirm = true">Supprimer</button>
-        <ConfirmDialogue v-model="showConfirm" @close="closeDelete()" @cancel="showConfirm = false"
-            @delete="removeTask">
+        <ConfirmDialogue 
+        v-model="showConfirm" 
+        @close="closeDelete()" 
+        @cancel="showConfirm = false"
+        @delete="removeTask">
         </ConfirmDialogue>
 
         <button class="btn btn-primary" @click="showUpdate = true">Modifier</button>
-        <UpdateDialogue v-model="showUpdate" @close="closeUpdate()" @cancel="showUpdate = false"
-            @update="updateTask">
+        <UpdateDialogue
+        v-model="showUpdate"
+        :task="task"
+        @close="closeUpdate()"
+        @cancel="showUpdate = false"
+        @update="updateTask" :title="title">
         </UpdateDialogue>
     </td>
 </template>

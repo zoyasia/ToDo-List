@@ -1,20 +1,20 @@
 <template>
     <PopupModal v-if="modelValue">
 
-        <template v-slot:header>{{ title }}</template>
+        <template v-slot:header>{{ modalTitle }}</template>
 
         <template v-slot:body>
             <div>
                 <label for="newTitle">Intitulé de la tâche :</label>
-                <input v-model="updatedTitle" id="updatedTitle" type="text" class="form-control">
+                <input v-model="title" name="newTitle" type="text" class="form-control">
             </div>
             <div>
                 <label for="newDescription">Description :</label>
-                <input v-model="updatedDescription" id="updatedDescription" type="text" class="form-control">
+                <input v-model="description" name="newDescription" type="text" class="form-control">
             </div>
             <div>
                 <label for="newDeadline">Deadline :</label>
-                <input v-model="updatedDeadline" id="updatedDeadline" type="date" class="form-control">
+                <input v-model="deadline" name="newDeadline" type="date" class="form-control">
             </div>
         </template>
 
@@ -30,6 +30,7 @@
 
 <script lang="ts">
 import PopupModal from './PopupModal.vue';
+import type { ITask } from '@/store/store';
 
 export default {
 
@@ -39,26 +40,38 @@ export default {
 
     props: {
         modelValue: Boolean, // Déclare la prop qui sera utilisée pour v-model
+        task: Object as () => ITask,
     },
 
     data: () => ({
-        title: 'Modification',
+        modalTitle: 'Modification',
         updateButton: 'Enregistrer',
         cancelButton: 'Annuler',
-        updatedTitle: '',
-        updatedDescription: '',
-        updatedDeadline: '',
+        title: '',
+        description: '',
+        deadline: '',
     }),
 
     emits: ["update", "cancel", "closeUpdate", "update:modelValue"],
+
+    watch: {
+        task: {
+            immediate: true, // se déclenche au mount
+            handler(newTask) {
+                this.title = newTask.title || ''; // passe une string vide si undefined
+                this.description = newTask.description || '';
+                this.deadline = newTask.deadline || '';
+            },
+        },
+    },
 
     methods: {
 
         confirmUpdate() {
             this.$emit('update', {
-                title: this.updatedTitle,
-                description: this.updatedDescription,
-                deadline: this.updatedDeadline,
+                title: this.title,
+                description: this.description,
+                deadline: this.deadline,
             });
         },
 
